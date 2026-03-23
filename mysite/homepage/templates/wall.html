@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Freedom Wall</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #fcfcfc; color: #1a1a1a; font-family: 'Inter', sans-serif; margin: 0; padding: 60px 20px; }
+        .container { max-width: 650px; margin: auto; }
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-weight: 300; font-size: 2.2rem; letter-spacing: -1px; margin: 0; }
+        .subtitle { color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
+        
+        .input-section { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #eee; margin-bottom: 40px; }
+        textarea { width: 100%; border: none; font-size: 1.1rem; resize: none; outline: none; height: 70px; font-family: inherit; }
+        
+        /* Fixed the spacing here */
+        .form-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f5f5f5; margin-top: 10px; padding-top: 15px; }
+        
+        input[type="text"] { border: none; border-bottom: 1px solid #eee; outline: none; padding: 5px; font-size: 0.9rem; width: 180px; background: transparent; }
+        button { background: #1a1a1a; color: #fff; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #000; transform: translateY(-1px); }
+
+        .post-card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #efefef; position: relative; padding-bottom: 50px; }
+        .content { font-size: 1.1rem; line-height: 1.5; color: #333; margin-bottom: 15px; }
+        .verse-label { font-size: 0.8rem; color: #999; font-weight: 500; background: #f8f9fa; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+        
+        /* Name placement */
+        .author-tag { position: absolute; bottom: 20px; right: 24px; font-size: 0.85rem; color: #bbb; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="subtitle">Quiet Reflections</div>
+            <h1>Freedom Wall</h1>
+        </header>
+
+        <div class="input-section">
+            <form method="POST">
+                {% csrf_token %}
+                <textarea name="message" placeholder="What's on your mind?" required></textarea>
+                <div class="form-footer">
+                    <input type="text" name="author_name" placeholder="Name (Optional)">
+                    <button type="submit">Post Message</button>
+                </div>
+            </form>
+        </div>
+
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="content">"{{ post.content }}"</div>
+            <span class="verse-label">{{ post.bible_verse }}</span>
+            <div class="author-tag">— {{ post.name }}</div>
+        </div>
+        {% empty %}
+        <p style="text-align: center; color: #ccc;">The wall is currently empty.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
